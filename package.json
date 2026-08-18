@@ -1,8 +1,30 @@
 {
   "name": "indian-rummy-game",
   "version": "2.0.0",
-  "description": "Multiplayer Indian Rummy Game with React.js & PixiJS WebGL Engine",
+  "description": "Cross-platform real-time multiplayer 13-Card Indian Rummy game built with React.js, PixiJS WebGL 2D engine, Node.js, Socket.IO, and Capacitor Android.",
   "main": "server.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Aravind00Kumar/Indian-rummy-game.git"
+  },
+  "keywords": [
+    "rummy",
+    "indian-rummy",
+    "card-game",
+    "multiplayer",
+    "pixijs",
+    "react",
+    "webgl",
+    "socket-io",
+    "capacitor",
+    "android-app"
+  ],
+  "author": "Aravind Kumar",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Aravind00Kumar/Indian-rummy-game/issues"
+  },
+  "homepage": "https://github.com/Aravind00Kumar/Indian-rummy-game#readme",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
