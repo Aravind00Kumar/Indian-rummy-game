@@ -1,0 +1,418 @@
+/* Tailwind CSS v3 Theme & Custom Card Game Physics Stylesheet */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --felt-color: #0e4429;
+    --felt-gradient: radial-gradient(circle, #195b39 0%, #0d3822 80%, #062013 100%);
+    --card-gold: #f6ad55;
+    --btn-accent: #319795;
+    --text-white: #f7fafc;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    height: 100dvh;
+    min-height: 100vh;
+    min-height: 100dvh;
+    min-height: -webkit-fill-available;
+    overflow: hidden;
+}
+
+input, select, textarea {
+    user-select: text;
+    -webkit-user-select: text;
+}
+
+.bg-radial-felt {
+    background: var(--felt-gradient);
+}
+
+/* Essential Visibility & Layout Rules */
+.hidden {
+    display: none !important;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+.deck-slot {
+    cursor: pointer !important;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: rgba(236, 201, 75, 0.4);
+    user-select: none;
+    -webkit-user-select: none;
+    z-index: 30;
+}
+
+.deck-slot svg, 
+.deck-slot svg *,
+.stacked-deck-wrapper *,
+#draw-deck-card,
+#open-discard-card,
+#wild-joker-card {
+    pointer-events: none !important;
+}
+
+#app-container {
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    max-height: 100dvh;
+    padding: 0;
+    margin: 0;
+}
+
+#screen-auth,
+#screen-lobby {
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-right: env(safe-area-inset-right, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    padding-left: env(safe-area-inset-left, 0px);
+}
+
+#screen-game {
+    width: 100% !important;
+    height: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.table-area {
+    padding-left: 0 !important;
+    margin-left: 0 !important;
+}
+
+.opponents-container {
+    margin-left: 0 !important;
+    border-left: none !important;
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+}
+
+/* Constrain table layout only for ultra-large desktop monitors */
+@media (min-width: 1400px) and (min-height: 850px) {
+    #app-container {
+        width: 1280px;
+        height: 800px;
+        border: 8px solid #2d1810;
+        border-radius: 20px;
+        box-shadow: inset 0 0 40px rgba(0,0,0,0.8), 0 10px 30px rgba(0,0,0,0.7);
+    }
+}
+
+/* Hide scrollbars cleanly across browsers */
+.scrollbar-none {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+    display: none;
+}
+
+/* Active Turn Pulsing Animation */
+@keyframes turnPulse {
+    0% {
+        box-shadow: 0 0 4px #ecc94b, inset 0 0 4px #ecc94b;
+        border-color: rgba(236, 201, 75, 0.4);
+    }
+    50% {
+        box-shadow: 0 0 16px #ecc94b, inset 0 0 8px #ecc94b;
+        border-color: rgba(236, 201, 75, 1);
+        transform: scale(1.02);
+    }
+    100% {
+        box-shadow: 0 0 4px #ecc94b, inset 0 0 4px #ecc94b;
+        border-color: rgba(236, 201, 75, 0.4);
+    }
+}
+
+.player-box {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    padding: 3px 2px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    border: 1.5px solid transparent;
+}
+
+.player-box.active-turn {
+    animation: turnPulse 2s infinite ease-in-out;
+    background: rgba(236, 201, 75, 0.14);
+}
+
+.player-box.active-turn .avatar-img {
+    border-color: #ecc94b;
+    box-shadow: 0 0 8px #ecc94b;
+}
+
+@keyframes blinker {
+    50% { opacity: 0.3; }
+}
+
+.turn-indicator-badge {
+    animation: blinker 1.5s linear infinite;
+}
+
+/* Card Groups */
+.hand-group-box {
+    display: flex;
+    align-items: flex-end;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1.5px dashed rgba(236, 201, 75, 0.4);
+    border-radius: 8px;
+    padding: 2px 5px 2px 3px;
+    margin-right: 0;
+    position: relative;
+    transition: background 0.2s ease, border-color 0.2s ease;
+    min-height: 78px;
+    min-width: 48px;
+    flex: 0 1 auto;
+}
+
+.hand-group-box.dragging-group {
+    opacity: 0.4;
+}
+
+.hand-group-box.drag-over-target {
+    background: rgba(236, 201, 75, 0.22) !important;
+    border-color: #ecc94b !important;
+    box-shadow: 0 0 20px rgba(236, 201, 75, 0.7);
+}
+
+.hand-group-title {
+    position: absolute;
+    top: -13px;
+    left: 2px;
+    font-size: 0.52rem;
+    font-weight: 800;
+    color: #ffffff;
+    background: #1a365d;
+    padding: 1px 5px;
+    border-radius: 4px;
+    border: 1.5px solid #63b3ed;
+    cursor: grab;
+    user-select: none;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+    white-space: nowrap;
+}
+
+.hand-group-title:active {
+    cursor: grabbing;
+}
+
+.hand-group-title.pure-seq {
+    background: #22543d;
+    border-color: #48bb78;
+    color: #9ae6b4;
+}
+
+.hand-group-title.impure-seq {
+    background: #744210;
+    border-color: #ecc94b;
+    color: #fefcbf;
+}
+
+.hand-group-title.valid-set {
+    background: #2b6cb0;
+    border-color: #63b3ed;
+    color: #ebf8ff;
+}
+
+.hand-group-title.invalid-group {
+    background: #742a2a;
+    border-color: #fc8181;
+    color: #fed7d7;
+}
+
+/* Playing Card Overlap & Physics */
+.playing-card-wrapper {
+    margin-right: -40px;
+    transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1.0), margin 0.2s cubic-bezier(0.2, 0.8, 0.2, 1.0), filter 0.2s ease;
+    cursor: grab;
+    position: relative;
+    z-index: 1;
+    will-change: transform, margin;
+}
+
+.playing-card-wrapper svg {
+    width: 78px !important;
+    height: 109px !important;
+}
+
+.playing-card-wrapper:active {
+    cursor: grabbing;
+}
+
+.playing-card-wrapper.dragging {
+    opacity: 0.3;
+    transform: scale(0.9) translateY(4px);
+}
+
+.playing-card-wrapper.drop-target-card {
+    border-left: 2px solid #ecc94b;
+    margin-left: 8px;
+    transform: scale(1.02);
+}
+
+.playing-card-wrapper:last-child {
+    margin-right: 0;
+}
+
+.playing-card-wrapper.selected {
+    transform: translateY(-10px);
+    filter: drop-shadow(0 6px 12px rgba(236, 201, 75, 0.6));
+}
+
+/* Center Decks Sizing & Stacked Wild Joker (Smartphone) */
+.deck-slot {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.deck-slot svg {
+    width: 54px !important;
+    height: 75px !important;
+    display: block !important;
+    vertical-align: top;
+}
+
+#declare-drop-area {
+    width: 54px !important;
+    height: 75px !important;
+    box-sizing: border-box;
+}
+
+#open-discard-card {
+    width: 54px !important;
+    height: 75px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#open-discard-card > div {
+    width: 54px !important;
+    height: 75px !important;
+    box-sizing: border-box;
+}
+
+.stacked-deck-wrapper {
+    position: relative;
+    width: 54px !important;
+    height: 75px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.under-wild-card {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 45px !important;
+    height: 63px !important;
+    z-index: 1;
+    transform: translateX(-20px);
+    filter: drop-shadow(-2.5px 2px 5px rgba(0,0,0,0.65));
+}
+
+.top-draw-card {
+    position: relative;
+    width: 45px !important;
+    height: 63px !important;
+    z-index: 2;
+    filter: drop-shadow(0 3px 6px rgba(0,0,0,0.6));
+}
+
+/* Desktop Mode: +20% Card Size Increase & Generous Proportions */
+@media (min-width: 1024px) and (min-height: 600px) {
+    .hand-group-box {
+        min-height: 128px;
+        min-width: 68px;
+        padding: 4px 8px 4px 6px;
+        border-radius: 12px;
+    }
+
+    .hand-group-title {
+        top: -16px;
+        left: 4px;
+        font-size: 0.7rem;
+        padding: 2px 7px;
+    }
+
+    .playing-card-wrapper {
+        margin-right: -42px;
+    }
+
+    .playing-card-wrapper svg {
+        width: 79px !important;
+        height: 110px !important;
+        display: block !important;
+    }
+
+    .playing-card-wrapper.selected {
+        transform: translateY(-14px);
+    }
+
+    .deck-slot svg {
+        width: 70px !important;
+        height: 98px !important;
+    }
+
+    #declare-drop-area {
+        width: 70px !important;
+        height: 98px !important;
+        font-size: 0.65rem !important;
+    }
+
+    #open-discard-card {
+        width: 70px !important;
+        height: 98px !important;
+    }
+
+    #open-discard-card > div {
+        width: 70px !important;
+        height: 98px !important;
+    }
+
+    .stacked-deck-wrapper {
+        width: 70px !important;
+        height: 98px !important;
+    }
+
+    .under-wild-card {
+        width: 70px !important;
+        height: 98px !important;
+        transform: translateX(-30px);
+        filter: drop-shadow(-3.5px 3px 7px rgba(0,0,0,0.75));
+    }
+
+    .top-draw-card {
+        width: 70px !important;
+        height: 98px !important;
+    }
+
+    .action-bar {
+        max-width: 360px;
+        margin: 4px auto 14px auto;
+    }
+}

@@ -1,0 +1,15 @@
+{
+  "appId": "com.rummy.mobile",
+  "appName": "Rummy Mobile",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "http",
+    "cleartext": true,
+    "allowNavigation": [
+      "192.168.*",
+      "10.0.*",
+      "localhost*",
+      "*"
+    ]
+  }
+}

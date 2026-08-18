@@ -1,0 +1,8 @@
+{
+  "versionCode": 39,
+  "versionName": "1.0.39",
+  "buildNumber": 39,
+  "updatedAt": "2026-08-18T18:05:00.517Z",
+  "apkUrl": "/api/download_apk",
+  "releaseNotes": "Real-time Socket.IO multiplayer sync, Android landscape optimizations, and turn audio notifications."
+}
