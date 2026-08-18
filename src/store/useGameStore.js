@@ -4,8 +4,8 @@ export const useGameStore = create((set, get) => ({
     activeScreen: 'auth', // 'auth' | 'lobby' | 'game'
     roomState: null,
     selectedCardIndices: [],
-    cardGroups: [], // Array of card arrays e.g. [[card1, card2], [card3, card4, card5]]
-    declarationResult: null, // Modal data when game is declared
+    cardGroups: [],
+    declarationResult: null,
     
     // UI Modals
     isCreateModalOpen: false,
@@ -13,6 +13,7 @@ export const useGameStore = create((set, get) => ({
     isSettingsModalOpen: false,
     isAboutModalOpen: false,
     isDeclareModalOpen: false,
+    isLeaderboardModalOpen: false,
 
     setActiveScreen: (screen) => set({ activeScreen: screen }),
     setRoomState: (roomState) => set({ roomState }),
@@ -33,5 +34,6 @@ export const useGameStore = create((set, get) => ({
     setJoinModalOpen: (open) => set({ isJoinModalOpen: open }),
     setSettingsModalOpen: (open) => set({ isSettingsModalOpen: open }),
     setAboutModalOpen: (open) => set({ isAboutModalOpen: open }),
-    setDeclareModalOpen: (open) => set({ isDeclareModalOpen: open })
+    setDeclareModalOpen: (open) => set({ isDeclareModalOpen: open }),
+    setLeaderboardModalOpen: (open) => set({ isLeaderboardModalOpen: open })
 }));

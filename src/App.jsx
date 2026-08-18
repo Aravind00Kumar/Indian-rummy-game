@@ -7,6 +7,7 @@ import { GameScreen } from './components/game/GameScreen';
 import { CreateRoomModal } from './components/modals/CreateRoomModal';
 import { JoinRoomModal } from './components/modals/JoinRoomModal';
 import { SettingsModal } from './components/modals/SettingsModal';
+import { LeaderboardModal } from './components/modals/LeaderboardModal';
 
 export function App() {
     const user = useAuthStore((state) => state.user);
@@ -29,6 +30,7 @@ export function App() {
             <CreateRoomModal />
             <JoinRoomModal />
             <SettingsModal />
+            <LeaderboardModal />
         </div>
     );
 }

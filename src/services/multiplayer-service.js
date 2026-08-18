@@ -128,6 +128,44 @@ export function joinRoom(roomCode, user) {
     });
 }
 
+export function registerTournamentPlayer(userId) {
+    return new Promise((resolve) => {
+        const s = getSocket();
+        if (s && s.connected) {
+            s.emit('register_tournament', { userId }, (res) => {
+                resolve(res && res.success ? res.roomState : null);
+            });
+        } else {
+            resolve(null);
+        }
+    });
+}
+
+export function unregisterTournamentPlayer(userId) {
+    return new Promise((resolve) => {
+        const s = getSocket();
+        if (s && s.connected) {
+            s.emit('unregister_tournament', { userId }, (res) => {
+                resolve(res && res.success ? res.roomState : null);
+            });
+        } else {
+            resolve(null);
+        }
+    });
+}
+
+export async function listPlayerStats() {
+    const serverUrl = getServerUrl();
+    try {
+        const res = await fetch(`${serverUrl}/api/list_player_stats`, { method: 'POST' });
+        const data = await res.json();
+        return data.stats || [];
+    } catch(e) {
+        console.error('Failed to fetch player stats:', e);
+        return [];
+    }
+}
+
 export function startNewGame(roomCode) {
     return new Promise((resolve) => {
         const s = getSocket();
